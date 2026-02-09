@@ -1,6 +1,6 @@
 FROM node:20-alpine
 RUN apk add --no-cache jq && npm install -g @bitwarden/cli
-COPY ./bitwarden/scripts/ /scripts/
+COPY ./scripts/ /scripts/
 RUN chmod +x /scripts/*
 # Wrapper cli cmd
 RUN mv /scripts/bw-cmd /usr/local/bin/bw-cmd
