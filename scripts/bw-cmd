@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Wrapper to help external scripts execute bitwarden-cli commands from outside the container
+export BW_SESSION=$(cat "$SESSION_FILE")
+bw "$@"
