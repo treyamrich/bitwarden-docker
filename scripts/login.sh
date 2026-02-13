@@ -28,3 +28,7 @@ if [ -f "$SESSION_FILE" ]; then
 else
     renew_session
 fi
+
+echo "================================Syncing Vault================================"
+bw sync
+echo ""
