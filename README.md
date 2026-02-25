@@ -10,6 +10,7 @@
 docker exec bitwarden /scripts/upsert.sh "Folder/Item" "username" "password"
 docker exec bitwarden /scripts/upsert-note.sh "Folder/Item" "note content here"
 docker exec bitwarden /scripts/get-login-pw.sh "Folder/Item"
+docker exec bitwarden /scripts/get-secure-note.sh "Folder/Item"
 # This is auto ran on start.sh
 docker exec bitwarden /scripts/login.sh
 # Execute adhoc bitwarden CLI commands from outside of the container
