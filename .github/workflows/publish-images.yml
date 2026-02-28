@@ -1,0 +1,58 @@
+name: Publish images
+
+on:
+  push:
+    tags: ['v*']
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-bitwarden-cli:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/treyamrich/bitwarden-cli:${{ github.ref_name }}
+            ${{ env.REGISTRY }}/treyamrich/bitwarden-cli:latest
+
+  build-vault-bootstrap:
+    needs: build-bitwarden-cli
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.vault
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/treyamrich/vault-bootstrap:${{ github.ref_name }}
+            ${{ env.REGISTRY }}/treyamrich/vault-bootstrap:latest

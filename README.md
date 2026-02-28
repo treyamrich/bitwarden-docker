@@ -18,11 +18,16 @@ docker exec bitwarden bw-cmd <insert-normal-bitwarden-command-here>
 docker exec bitwarden bw-cmd list items ----translates-to---> bw list items
 ```
 
+### CI — GHCR Image Publishing
+
+Both `bitwarden-cli` and `vault-bootstrap` images are automatically built and pushed to GHCR on version tag push (`v*`). The workflow builds `bitwarden-cli` first (from `Dockerfile`), then `vault-bootstrap` (from `Dockerfile.vault`) which depends on it.
+
+- `ghcr.io/treyamrich/bitwarden-cli:<tag>`
+- `ghcr.io/treyamrich/vault-bootstrap:<tag>`
+
 ### Dockerfile.vault
 
-An augmented Docker image that adds HashiCorp Vault CLI to the base bitwarden-cli image.
-
-**Prerequisites:** The base `bitwarden-cli:latest` image must be built first (via `./start.sh` or `docker build -t bitwarden-cli:latest .`).
+An augmented Docker image that adds HashiCorp Vault CLI to the base bitwarden-cli image. The base image is pulled from `ghcr.io/treyamrich/bitwarden-cli:latest`.
 
 ```sh
 # Build the vault variant (default VAULT_VERSION=1.21)
